@@ -1,0 +1,68 @@
+import pygame
+import random
+
+# Initialize Pygame
+pygame.init()
+
+# Constants
+SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
+CHAR_WIDTH, CHAR_HEIGHT = 50, 50
+FPS = 60
+
+# Colors
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+
+# Create the window
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption('Simple Game')
+
+# Character properties
+character = pygame.Rect(50, 50, CHAR_WIDTH, CHAR_HEIGHT)
+character_speed = 5
+
+# Clock for controlling the frame rate
+clock = pygame.time.Clock()
+
+# Main game loop
+running = True
+while running:
+    screen.fill(WHITE)
+
+    # Event handling
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Movement handling
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        character.x -= character_speed
+    if keys[pygame.K_RIGHT]:
+        character.x += character_speed
+    if keys[pygame.K_UP]:
+        character.y -= character_speed
+    if keys[pygame.K_DOWN]:
+        character.y += character_speed
+
+    # Boundaries
+    if character.left < 0:
+        character.left = 0
+    if character.right > SCREEN_WIDTH:
+        character.right = SCREEN_WIDTH
+    if character.top < 0:
+        character.top = 0
+    if character.bottom > SCREEN_HEIGHT:
+        character.bottom = SCREEN_HEIGHT
+
+    # Draw character
+    pygame.draw.rect(screen, RED, character)
+
+    # Update display
+    pygame.display.flip()
+
+    # Cap the frame rate
+    clock.tick(FPS)
+
+# Quit Pygame
+pygame.quit()
